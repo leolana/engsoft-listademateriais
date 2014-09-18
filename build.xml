@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+
+<!--
+ Lista de Materiais
+
+ Copyright © 1996-2014 Luiz Eduardo Buzato
+
+ This file is part of Lista de Materiais, an example of pattern composite
+ used to illustrate principles and practice of object-oriented
+ design.
+
+ Lista de Materiais is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<project name="Lista de Materiais" default="build" basedir=".">
+
+  <!-- Give the user a chance to override without editing this file
+       (and without typing -D each time he compiles it) -->
+  <property file="build.properties" />
+  <property file="${user.home}/.ant.properties" />
+
+  <!-- Name of project and version, used to create filenames -->
+  <property name="Name"    value="Lista de Materiais, Iteração 1"/>
+  <property name="name"    value="listamateriais-i1"/>
+  <property name="version" value="1.0.0"/>
+  <property name="fullname" value="${name}-${version}" />
+
+  <!-- Set compiler properties -->
+  <property name="build.compiler" value="modern"/>
+  <property name="build.compiler.emacs" value="on"/>
+  <property name="debug" value="true"/>
+  <property name="deprecation" value="false"/>
+  <property name="optimize" value="true"/>
+  <property name="build.sysclasspath" value="ignore"/>
+
+  <!-- Set JUnit properties -->
+  <property name="testcase" value="inf319.listaMateriais.TestListaMateriais"/>
+  <property name="junit.fork" value="false"/>
+  <property name="junit.filtertrace" value="off"/>
+  <property name="junit.summary" value="no"/>
+
+  <!-- Set Javadoc properties -->
+  <property name="javadoc.link" value="http://java.sun.com/j2se/1.6.0/docs/api/"/>
+  <property name="javadoc.access" value="public"/>
+  <property name="domain.package" value="inf319"/>
+
+  <!-- Set directories and files locations -->
+  <property name="lib.dir" value="lib"/>
+  <property name="src.dir" value="src/main/java"/>
+  <property name="tests.dir" value="src/test/java"/>
+  <property name="build.dir" value="build"/>
+  <property name="build.main" value="${build.dir}/main"/>
+  <property name="build.tests" value="${build.dir}/test"/>
+  <property name="dist.dir" value="dist"/>
+  <property name="dist.javadocs" value="${dist.dir}/javadocs"/>
+
+
+  <!-- Classpaths -->
+
+  <path id="project.class.path">
+    <pathelement location="${build.main}"/>
+    <fileset dir="${basedir}">
+      <include name="${lib.dir}/*.jar"/>
+    </fileset>
+    <pathelement path="${java.class.path}"/>
+  </path>
+
+  <path id="tests.class.path">
+    <pathelement location="${build.tests}"/>
+    <path refid="project.class.path"/>
+  </path>
+
+  <!-- Tasks -->
+
+  <target name="init">
+    <tstamp>
+      <format property="subversion" pattern="yyyy.MM.dd.hh.mm.ss"/>
+    </tstamp>
+    <echo message="${Name} - ${version} (${subversion})"/>
+    <available property="junit.present" classname="junit.framework.TestCase"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${dist.dir}"/>
+  </target>
+
+  <target name="build" depends="init"
+          description="Compiles the source code.">
+    <mkdir dir="${build.main}"/>
+    <javac srcdir="${src.dir}" destdir="${build.main}"
+           classpathref="project.class.path"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+    </javac>
+  </target>
+    
+  <target name="build-tests" depends="build" if="junit.present">
+    <mkdir dir="${build.tests}"/>
+    <javac srcdir="${tests.dir}" destdir="${build.tests}"
+           classpathref="tests.class.path"
+           debug="${debug}"
+           deprecation="${deprecation}"
+           optimize="${optimize}">
+    </javac>
+  </target>
+
+  <target name="test" depends="dump-info, build-tests" if="junit.present"
+          description="Runs JUnit tests.">
+    <junit printsummary="${junit.summary}" haltonfailure="yes"
+           filtertrace="${junit.filtertrace}"
+           fork="${junit.fork}">
+      <classpath refid="tests.class.path"/>
+      <formatter type="plain" usefile="false"/>
+      <test name="${testcase}"/>
+    </junit>
+  </target>
+    
+  <target name="javadoc_check">
+    <uptodate property="javadoc.notrequired"
+              targetfile="${dist.javadocs}/packages.html" >
+      <srcfiles dir="${src.dir}" includes="**/*.java"/>
+    </uptodate>
+  </target>
+
+  <target name="javadoc" depends="javadoc_check" unless="javadoc.notrequired"
+          description="Generates the API documentation.">
+    <mkdir dir="${dist.javadocs}"/>
+    <javadoc packagenames="${domain.package}/*"
+             useexternalfile="yes"
+             sourcepath="${src.dir}"
+             classpathref="project.class.path"
+             link="${javadoc.link}"
+             destdir="${dist.javadocs}"
+             use="true"
+             access="${javadoc.access}"
+             author="true"
+             version="true"
+             windowtitle="${Name} API"
+             doctitle="${Name} API"
+             charset="UTF-8">
+      <bottom><![CDATA[<i>Copyright &#169; 2013 Luiz Eduardo Buzato</i>]]></bottom>
+    </javadoc>
+  </target>
+
+  <target name="source" depends="distclean"
+          description="Creates source tar.gz and zip files.">
+    <mkdir dir="${dist.dir}/${fullname}"/>
+    <copy todir="${dist.dir}/${fullname}" preservelastmodified="yes">
+      <fileset dir="${basedir}" excludes="${dist.dir}/, ${lib.dir}/*.jar"/>
+    </copy>
+    <tar tarfile="${dist.dir}/${fullname}-src.tar.gz"
+         basedir="${dist.dir}"
+         compression="gzip"
+	 includes="${fullname}/"/>
+    <zip zipfile="${dist.dir}/${fullname}-src.zip"
+         basedir="${dist.dir}"
+	 includes="${fullname}/"/>
+    <delete dir="${dist.dir}/${fullname}"/>
+  </target>
+
+  <target name="jar" depends="build"
+	  description="Creates library jar file.">
+    <jar jarfile="${dist.dir}/${name}-${version}.jar" basedir="${build.main}"/>
+  </target>
+
+  <target name="dist" depends="jar, javadoc"
+	  description="Creates binary and documentation tar.gz and zip files.">
+    <copy todir="${build.dir}/${fullname}" preservelastmodified="yes">
+      <fileset dir="${dist.dir}" excludes="*.tar.gz, *.zip"/>
+      <fileset file="README"/>
+      <fileset file="lib/README.dep"/>
+    </copy>
+    <tar tarfile="${dist.dir}/${fullname}.tar.gz"
+         basedir="${build.dir}"
+         compression="gzip"
+         longfile="gnu"
+	 includes="${fullname}/"/>
+    <zip zipfile="${dist.dir}/${fullname}.zip"
+         basedir="${build.dir}"
+	 includes="${fullname}/"/>
+  </target>
+
+  <target name="release" depends="source, dist"
+	  description="Creates all distribution files.">
+    <tar tarfile="${dist.dir}/${fullname}-dep.tar.gz"
+         basedir="${basedir}"
+         compression="gzip"
+	 includes="${lib.dir}/"/>
+    <zip zipfile="${dist.dir}/${fullname}-dep.zip"
+         basedir="${basedir}"
+	 includes="${lib.dir}/"/>
+  </target>
+
+  <target name="clean"
+	  description="Cleans up build and dist directories.">
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+
+  <target name="distclean" depends="clean"
+	  description="Cleans up everything.">
+    <delete>
+      <fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/>
+      <fileset dir="${basedir}" includes="**/.#*" defaultexcludes="no"/>
+    </delete>
+  </target>
+
+  <target name="dump-info" description="Echoes useful system properties.">
+    <echo message="java.vm.name = ${java.vm.name}"/>
+    <echo message="java.vm.vendor = ${java.vm.vendor}"/>
+    <echo message="java.vm.version = ${java.vm.version}"/>
+    <echo message="java.vm.info = ${java.vm.info}"/>
+    <echo message="os.arch = ${os.arch}"/>
+    <echo message="os.name = ${os.name}"/>
+    <echo message="os.version = ${os.version}"/>
+    <echo message="java.home = ${java.home}"/>
+    <echo message="java.class.path = ${java.class.path}"/>
+    <echo message="build.compiler = ${build.compiler}"/>
+    <echo message="file.encoding = ${file.encoding}"/>
+    <echo message="user.home = ${user.home}"/>
+    <echo message="user.language = ${user.language}"/>
+    <echo message="junit testcase = ${testcase}"/>
+    <echo message="lib.dir = ${lib.dir}"/>
+    <echo message="src.dir = ${src.dir}"/>
+    <echo message="tests.dir = ${tests.dir}"/>
+    <echo message="build.dir = ${build.dir}"/>
+    <echo message="build.main = ${build.main}"/>
+    <echo message="build.tests = ${build.tests}"/>
+    <echo message="dist.dir = ${dist.dir}"/>
+    <echo message="dist.javadocs = ${dist.javadocs}"/>
+  </target>
+
+</project>
