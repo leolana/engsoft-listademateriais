@@ -7,12 +7,12 @@ import java.util.Set;
 public class Assembly extends Part {
 
     private Set<Part> parts;
-    
+
     public Assembly(PartNumber thePartNumber, String theDescription) {
         super(thePartNumber, theDescription);
         parts = new HashSet<Part>();
     }
-    
+
     public double cost() {
         double totalCost = 0;
         for (Iterator<Part> i = parts.iterator(); i.hasNext(); ) {
@@ -21,11 +21,26 @@ public class Assembly extends Part {
         }
         return totalCost;
     }
-    
+
+    public String list(int indent) {
+	String result =
+	    "Part: " + getPartNumber().toString() +
+	    " Descrição: " + getDescription() +
+	    " Cost:" + cost()
+	    + "\n";
+
+	for(Iterator<Part> i = parts.iterator(); i.hasNext();) {
+	    Part part = (Part) i.next();
+	    result += part.list(indent + 1);
+	}
+
+	return result;
+    }
+
     public void addPart(Part thePart) {
         parts.add(thePart);
     }
-    
+
     public Set<Part> getParts() {
         return parts;
     }

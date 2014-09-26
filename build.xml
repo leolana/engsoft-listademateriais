@@ -103,7 +103,7 @@
            optimize="${optimize}">
     </javac>
   </target>
-    
+
   <target name="build-tests" depends="build" if="junit.present">
     <mkdir dir="${build.tests}"/>
     <javac srcdir="${tests.dir}" destdir="${build.tests}"
@@ -124,7 +124,7 @@
       <test name="${testcase}"/>
     </junit>
   </target>
-    
+
   <target name="javadoc_check">
     <uptodate property="javadoc.notrequired"
               targetfile="${dist.javadocs}/packages.html" >
