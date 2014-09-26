@@ -50,7 +50,6 @@ public class PartTest extends TestCase {
     }
 
     public void testList() {
-
     	// Átomos para a roda dianteira
     	PiecePart aroDianteiro = new PiecePart(new PartNumber(51), "Aro Dianteiro", 20.0);
     	PiecePart cuboDianteiro = new PiecePart(new PartNumber(52), "Cubo Dianteiro", 30.0);
@@ -82,5 +81,53 @@ public class PartTest extends TestCase {
     	motocicleta.addPart(rodaTraseira);
 
     	assertEquals(140.0, motocicleta.cost());
+    }
+
+    public void testListing() {
+    	// Átomos para a roda dianteira
+    	PiecePart aroDianteiro = new PiecePart(new PartNumber(51), "Aro Dianteiro", 20.0);
+    	PiecePart cuboDianteiro = new PiecePart(new PartNumber(52), "Cubo Dianteiro", 30.0);
+    	PiecePart raiosDianteiro = new PiecePart(new PartNumber(53), "Raios Dianteiro", 5.0);
+    	PiecePart pneuDianteiro = new PiecePart(new PartNumber(54), "Pneu Dianteiro", 15.0);
+
+    	// Roda dianteira
+    	Assembly rodaDianteira = new Assembly(new PartNumber(5), "Roda Dianteira");
+    	rodaDianteira.addPart(aroDianteiro);
+    	rodaDianteira.addPart(cuboDianteiro);
+    	rodaDianteira.addPart(raiosDianteiro);
+    	rodaDianteira.addPart(pneuDianteiro);
+
+    	// Átomos para a roda traseira
+       	PiecePart aroTraseiro = new PiecePart(new PartNumber(61), "Aro Traseiro", 20.0);
+    	PiecePart cuboTraseiro = new PiecePart(new PartNumber(62), "Cubo Traseiro", 30.0);
+    	PiecePart raiosTraseiro = new PiecePart(new PartNumber(63), "Raios Traseiro", 5.0);
+    	PiecePart pneuTraseiro = new PiecePart(new PartNumber(64), "Pneu Traseiro", 15.0);
+
+    	//Roda Traseira
+    	Assembly rodaTraseira = new Assembly(new PartNumber(6), "Roda Traseira");
+    	rodaTraseira.addPart(aroTraseiro);
+    	rodaTraseira.addPart(cuboTraseiro);
+    	rodaTraseira.addPart(raiosTraseiro);
+    	rodaTraseira.addPart(pneuTraseiro);
+
+    	Assembly motocicleta = new Assembly(new PartNumber(7), "Motocicleta");
+    	motocicleta.addPart(rodaDianteira);
+    	motocicleta.addPart(rodaTraseira);
+
+	String result = new StringBuilder()
+	    .append("Part: 7; Descrição: Motocicleta; Cost:140.0\n")
+	    .append(" Part: 6; Descrição: Roda Traseira; Cost:70.0\n")
+	    .append("  Part: 64; Descrição: Pneu Traseiro; Cost:15.0\n")
+	    .append("  Part: 62; Descrição: Cubo Traseiro; Cost:30.0\n")
+	    .append("  Part: 63; Descrição: Raios Traseiro; Cost:5.0\n")
+	    .append("  Part: 61; Descrição: Aro Traseiro; Cost:20.0\n")
+	    .append(" Part: 5; Descrição: Roda Dianteira; Cost:70.0\n")
+	    .append("  Part: 54; Descrição: Pneu Dianteiro; Cost:15.0\n")
+	    .append("  Part: 51; Descrição: Aro Dianteiro; Cost:20.0\n")
+	    .append("  Part: 53; Descrição: Raios Dianteiro; Cost:5.0\n")
+	    .append("  Part: 52; Descrição: Cubo Dianteiro; Cost:30.0\n")
+	    .toString();
+
+	assertEquals(motocicleta.list(0), result);
     }
 }

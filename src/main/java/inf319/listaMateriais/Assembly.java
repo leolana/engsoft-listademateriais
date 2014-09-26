@@ -23,10 +23,14 @@ public class Assembly extends Part {
     }
 
     public String list(int indent) {
-	String result =
-	    "Part: " + getPartNumber().toString() +
-	    " Descrição: " + getDescription() +
-	    " Cost:" + cost()
+	String result;
+
+	result = new String(new char[indent]).replace("\0", " ");
+
+	result +=
+	    "Part: " + getPartNumber().getNumber() +
+	    "; Descrição: " + getDescription() +
+	    "; Cost:" + cost()
 	    + "\n";
 
 	for(Iterator<Part> i = parts.iterator(); i.hasNext();) {
