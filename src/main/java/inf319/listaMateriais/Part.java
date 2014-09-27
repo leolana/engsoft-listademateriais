@@ -1,6 +1,8 @@
 package inf319.listaMateriais;
 
-public abstract class Part {
+import java.util.Comparator;
+
+public abstract class Part implements Comparable<Part> {
 
     private String description;
     private final PartNumber partNumber;
@@ -24,5 +26,9 @@ public abstract class Part {
 
     public PartNumber getPartNumber() {
         return partNumber;
+    }
+
+    public int compareTo(Part p2) {
+        return getPartNumber().compareTo(p2.getPartNumber());
     }
 }

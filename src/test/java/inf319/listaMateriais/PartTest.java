@@ -101,7 +101,7 @@ public class PartTest extends TestCase {
        	PiecePart aroTraseiro = new PiecePart(new PartNumber(61), "Aro Traseiro", 20.0);
     	PiecePart cuboTraseiro = new PiecePart(new PartNumber(62), "Cubo Traseiro", 30.0);
     	PiecePart raiosTraseiro = new PiecePart(new PartNumber(63), "Raios Traseiro", 5.0);
-    	PiecePart pneuTraseiro = new PiecePart(new PartNumber(64), "Pneu Traseiro", 15.0);
+    	PiecePart pneuTraseiro = new PiecePart(new PartNumber(60), "Pneu Traseiro", 15.0);
 
     	//Roda Traseira
     	Assembly rodaTraseira = new Assembly(new PartNumber(6), "Roda Traseira");
@@ -116,16 +116,16 @@ public class PartTest extends TestCase {
 
 	String result = new StringBuilder()
 	    .append("Part: 7; Descrição: Motocicleta; Cost:140.0\n")
+	    .append(" Part: 5; Descrição: Roda Dianteira; Cost:70.0\n")
+	    .append("  Part: 51; Descrição: Aro Dianteiro; Cost:20.0\n")
+	    .append("  Part: 52; Descrição: Cubo Dianteiro; Cost:30.0\n")
+	    .append("  Part: 53; Descrição: Raios Dianteiro; Cost:5.0\n")
+	    .append("  Part: 54; Descrição: Pneu Dianteiro; Cost:15.0\n")
 	    .append(" Part: 6; Descrição: Roda Traseira; Cost:70.0\n")
-	    .append("  Part: 64; Descrição: Pneu Traseiro; Cost:15.0\n")
+	    .append("  Part: 60; Descrição: Pneu Traseiro; Cost:15.0\n")
+	    .append("  Part: 61; Descrição: Aro Traseiro; Cost:20.0\n")
 	    .append("  Part: 62; Descrição: Cubo Traseiro; Cost:30.0\n")
 	    .append("  Part: 63; Descrição: Raios Traseiro; Cost:5.0\n")
-	    .append("  Part: 61; Descrição: Aro Traseiro; Cost:20.0\n")
-	    .append(" Part: 5; Descrição: Roda Dianteira; Cost:70.0\n")
-	    .append("  Part: 54; Descrição: Pneu Dianteiro; Cost:15.0\n")
-	    .append("  Part: 51; Descrição: Aro Dianteiro; Cost:20.0\n")
-	    .append("  Part: 53; Descrição: Raios Dianteiro; Cost:5.0\n")
-	    .append("  Part: 52; Descrição: Cubo Dianteiro; Cost:30.0\n")
 	    .toString();
 
 	assertEquals(motocicleta.list(0), result);

@@ -3,9 +3,10 @@ package inf319.listaMateriais;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class Assembly extends Part {
-
     private Set<Part> parts;
 
     public Assembly(PartNumber thePartNumber, String theDescription) {
@@ -33,7 +34,10 @@ public class Assembly extends Part {
 	    "; Cost:" + cost()
 	    + "\n";
 
-	for(Iterator<Part> i = parts.iterator(); i.hasNext();) {
+	LinkedList<Part> list_part = new LinkedList<Part>(getParts());
+	Collections.sort(list_part, null);
+
+	for(Iterator<Part> i = list_part.iterator(); i.hasNext();) {
 	    Part part = (Part) i.next();
 	    result += part.list(indent + 1);
 	}
@@ -47,5 +51,9 @@ public class Assembly extends Part {
 
     public Set<Part> getParts() {
         return parts;
+    }
+
+    public int compareTo(Assembly a1, Assembly a2) {
+	return a1.getPartNumber().compareTo(a2.getPartNumber());
     }
 }
