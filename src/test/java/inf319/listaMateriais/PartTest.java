@@ -6,10 +6,19 @@ public class PartTest extends TestCase {
     public void testPart() {
         PartNumber number = new PartNumber(42);
         Part part = new PiecePart(number, "description", 23);
+
         assertEquals(42, part.getPartNumber().getNumber());
         assertEquals("description", part.getDescription());
-        part.setDescription("new description");
+
+	part.setDescription("new description");
         assertEquals("new description", part.getDescription());
+    }
+
+    public void testPartNumberComparison() {
+	Comparable<PartNumber> p1 = new PartNumber(42);
+	PartNumber p2 = new PartNumber(999);
+
+	assertTrue(p1.compareTo(p2) < 0);
     }
 
     public void testPiecePart() {
@@ -128,6 +137,8 @@ public class PartTest extends TestCase {
 	    .append("  Part: 63; Descrição: Raios Traseiro; Cost:5.0\n")
 	    .toString();
 
-	assertEquals(motocicleta.list(0), result);
+	PartPresenter presenter = new PartPresenter(motocicleta);
+
+	assertEquals(presenter.list(), result);
     }
 }
