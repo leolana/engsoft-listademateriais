@@ -29,11 +29,11 @@ public abstract class Part implements Comparable<Part> {
 
     public String toString() {
 	return new StringBuilder()
-	    .append("Part: ")
+	    .append("Parte: ")
 	    .append(getPartNumber().getNumber())
-	    .append("; Descrição: ")
+	    .append("; Descricao: ")
 	    .append(getDescription())
-	    .append("; Cost:")
+	    .append("; Custo: ")
 	    .append(cost())
 	    .append("\n")
 	    .toString();
@@ -45,6 +45,10 @@ public abstract class Part implements Comparable<Part> {
 
     public PartNumber getPartNumber() {
         return partNumber;
+    }
+
+    public String list() {
+	return new PartPresenter(this).list();
     }
 
     // Comparação é delegada para os PartNumbers, conforme requisito.

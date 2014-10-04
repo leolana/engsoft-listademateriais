@@ -124,17 +124,17 @@ public class PartTest extends TestCase {
     	motocicleta.addPart(rodaTraseira);
 
 	String result = new StringBuilder()
-	    .append("Part: 7; Descrição: Motocicleta; Cost:140.0\n")
-	    .append(" Part: 5; Descrição: Roda Dianteira; Cost:70.0\n")
-	    .append("  Part: 51; Descrição: Aro Dianteiro; Cost:20.0\n")
-	    .append("  Part: 52; Descrição: Cubo Dianteiro; Cost:30.0\n")
-	    .append("  Part: 53; Descrição: Raios Dianteiro; Cost:5.0\n")
-	    .append("  Part: 54; Descrição: Pneu Dianteiro; Cost:15.0\n")
-	    .append(" Part: 6; Descrição: Roda Traseira; Cost:70.0\n")
-	    .append("  Part: 60; Descrição: Pneu Traseiro; Cost:15.0\n")
-	    .append("  Part: 61; Descrição: Aro Traseiro; Cost:20.0\n")
-	    .append("  Part: 62; Descrição: Cubo Traseiro; Cost:30.0\n")
-	    .append("  Part: 63; Descrição: Raios Traseiro; Cost:5.0\n")
+	    .append("Parte: 7; Descricao: Motocicleta; Custo: 140.0\n")
+	    .append(" Parte: 5; Descricao: Roda Dianteira; Custo: 70.0\n")
+	    .append("  Parte: 51; Descricao: Aro Dianteiro; Custo: 20.0\n")
+	    .append("  Parte: 52; Descricao: Cubo Dianteiro; Custo: 30.0\n")
+	    .append("  Parte: 53; Descricao: Raios Dianteiro; Custo: 5.0\n")
+	    .append("  Parte: 54; Descricao: Pneu Dianteiro; Custo: 15.0\n")
+	    .append(" Parte: 6; Descricao: Roda Traseira; Custo: 70.0\n")
+	    .append("  Parte: 60; Descricao: Pneu Traseiro; Custo: 15.0\n")
+	    .append("  Parte: 61; Descricao: Aro Traseiro; Custo: 20.0\n")
+	    .append("  Parte: 62; Descricao: Cubo Traseiro; Custo: 30.0\n")
+	    .append("  Parte: 63; Descricao: Raios Traseiro; Custo: 5.0\n")
 	    .toString();
 
 	PartPresenter presenter = new PartPresenter(motocicleta);
